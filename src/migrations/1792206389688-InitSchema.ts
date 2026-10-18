@@ -24,7 +24,6 @@ export class InitSchema1792206389688 implements MigrationInterface {
                 "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
                 "date" date NOT NULL,
                 "impact" "public"."event_impact_enum" NOT NULL,
-                "title" character varying(255),
                 "description" text,
                 "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
                 CONSTRAINT "PK_40731c7151fe4be3116e45ddf73" PRIMARY KEY ("id")

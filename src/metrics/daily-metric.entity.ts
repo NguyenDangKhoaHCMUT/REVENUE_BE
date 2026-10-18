@@ -20,36 +20,39 @@ export class DailyMetric {
 
   @Column({
     name: 'pos_revenue',
+    nullable: true,
     type: 'numeric',
     precision: 12,
     scale: 2,
     default: 0,
     transformer: numericTransformer,
   })
-  posRevenue: number;
+  posRevenue: number | null;
 
   @Column({
     name: 'eatclub_revenue',
+    nullable: true,
     type: 'numeric',
     precision: 12,
     scale: 2,
     default: 0,
     transformer: numericTransformer,
   })
-  eatclubRevenue: number;
+  eatclubRevenue: number | null;
 
   @Column({
     name: 'labour_cost',
+    nullable: true,
     type: 'numeric',
     precision: 12,
     scale: 2,
     default: 0,
     transformer: numericTransformer,
   })
-  labourCost: number;
+  labourCost: number | null;
 
-  @Column({ type: 'int', default: 0 })
-  covers: number;
+  @Column({ type: 'int', default: 0, nullable: true })
+  covers: number | null;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
