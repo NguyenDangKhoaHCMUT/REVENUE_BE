@@ -26,7 +26,8 @@ export class InitSchema1792206389688 implements MigrationInterface {
                 "impact" "public"."event_impact_enum" NOT NULL,
                 "description" text,
                 "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-                CONSTRAINT "PK_40731c7151fe4be3116e45ddf73" PRIMARY KEY ("id")
+                CONSTRAINT "PK_40731c7151fe4be3116e45ddf73" PRIMARY KEY ("id"),
+                CONSTRAINT "UQ_events_date" UNIQUE ("date")
             )
         `);
         await queryRunner.query(`

@@ -1,12 +1,12 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   ParseUUIDPipe,
   Patch,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -15,6 +15,7 @@ import { AdminEventsService } from '../services/admin-events.service.js';
 import { CreateEventDto } from '../dto/create-event.dto.js';
 import { GetEventsFilterDto } from '../dto/get-events-filter.dto.js';
 import { UpdateEventDto } from '../dto/update-event.dto.js';
+import { BatchUpsertEventsDto } from '../dto/batch-upsert-events.dto.js';
 
 @Controller('admin/events')
 @UseGuards(JwtAuthGuard)
@@ -24,6 +25,11 @@ export class AdminEventsController {
   @Get()
   findAll(@Query() filter: GetEventsFilterDto) {
     return this.eventsService.findAll(filter);
+  }
+
+  @Put()
+  upsertBatch(@Body() dto: BatchUpsertEventsDto) {
+    return this.eventsService.upsertBatch(dto);
   }
 
   @Post()
