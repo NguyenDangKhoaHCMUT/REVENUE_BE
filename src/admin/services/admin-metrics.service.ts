@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
+import { Between, In, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { DailyMetric } from '../../metrics/daily-metric.entity.js';
 import { GetMetricsFilterDto } from '../dto/get-metrics-filter.dto.js';
 import { UpsertDailyMetricDto } from '../dto/upsert-daily-metric.dto.js';
+import { BatchUpsertMetricsDto } from '../dto/batch-upsert-metrics.dto.js';
 
 @Injectable()
 export class AdminMetricsService {
@@ -33,6 +34,25 @@ export class AdminMetricsService {
       where,
       order: { date: 'ASC' },
     });
+  }
+
+  async upsertBatch(dto: BatchUpsertMetricsDto): Promise<{ success: true }> {
+    await this.metrics.manager.transaction(async (manager) => {
+      const repository = manager.getRepository(DailyMetric);
+      const emptyDates = dto.metrics
+        .filter((row) => row.posRevenue === null && row.eatclubRevenue === null
+          && row.labourCost === null && row.covers === null)
+        .map((row) => row.date);
+      if (emptyDates.length) {
+        await repository.delete({ date: In(emptyDates) });
+      }
+
+      const rows = dto.metrics.filter((row) => !emptyDates.includes(row.date));
+      if (rows.length) {
+        await repository.upsert(rows, ['date']);
+      }
+    });
+    return { success: true };
   }
 
   async upsert(date: string, dto: UpsertDailyMetricDto): Promise<DailyMetric> {

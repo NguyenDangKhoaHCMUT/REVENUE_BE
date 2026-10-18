@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxLength } from 'class-validator';
+import { IsEnum, IsOptional, IsString, Matches } from 'class-validator';
 import { EventImpact } from '../../events/event.entity.js';
 
 export class UpdateEventDto {
@@ -9,12 +9,6 @@ export class UpdateEventDto {
   @IsOptional()
   @IsEnum(EventImpact, { message: 'impact must be either "positive" or "negative"' })
   impact?: EventImpact;
-
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(255)
-  title?: string;
 
   @IsOptional()
   @IsString()

@@ -13,6 +13,7 @@ import { validateDateFormat } from '../../common/date.util.js';
 import { AdminMetricsService } from '../services/admin-metrics.service.js';
 import { GetMetricsFilterDto } from '../dto/get-metrics-filter.dto.js';
 import { UpsertDailyMetricDto } from '../dto/upsert-daily-metric.dto.js';
+import { BatchUpsertMetricsDto } from '../dto/batch-upsert-metrics.dto.js';
 
 @Controller('admin/metrics')
 @UseGuards(JwtAuthGuard)
@@ -22,6 +23,11 @@ export class AdminMetricsController {
   @Get()
   findAll(@Query() filter: GetMetricsFilterDto) {
     return this.metricsService.findAll(filter);
+  }
+
+  @Put()
+  upsertBatch(@Body() dto: BatchUpsertMetricsDto) {
+    return this.metricsService.upsertBatch(dto);
   }
 
   @Put(':date')

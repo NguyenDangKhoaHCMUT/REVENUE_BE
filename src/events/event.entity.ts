@@ -24,9 +24,6 @@ export class Event {
   @Column({ type: 'enum', enum: EventImpact, enumName: 'event_impact_enum' })
   impact: EventImpact;
 
-  @Column({ type: 'varchar', length: 255 })
-  title: string;
-
   @Column({ type: 'text', nullable: true })
   description: string | null;
 

@@ -27,7 +27,6 @@ export class AdminEventsService {
       select: {
         date: true,
         impact: true,
-        title: true,
         description: true,
       },
       where,
