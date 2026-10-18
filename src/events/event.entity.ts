@@ -4,6 +4,7 @@ import {
   Entity,
   Index,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 
 export enum EventImpact {
@@ -12,6 +13,7 @@ export enum EventImpact {
 }
 
 @Entity('events')
+@Unique('UQ_events_date', ['date'])
 export class Event {
   @PrimaryGeneratedColumn('uuid')
   id: string;
